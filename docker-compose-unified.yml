@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # 统一服务（前端 + 后端）
+  watchface-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: watchface-agent
+    ports:
+      - "10031:10031"
+    environment:
+      - MINIMAX_BASE_URL=${MINIMAX_BASE_URL:-https://api.minimaxi.com/v1}
+      - MINIMAX_API_KEY=${MINIMAX_API_KEY}
+      - BACKEND_PORT=10030
+      - FRONTEND_PORT=10031
+      - HOST=0.0.0.0
+      - DEBUG=True
+    volumes:
+      - ./storage:/app/storage
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:10031/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  storage:
+  logs:
+

@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # 后端服务
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: watchface-backend
+    ports:
+      - "10030:10030"
+    environment:
+      - MINIMAX_BASE_URL=${MINIMAX_BASE_URL:-https://api.minimaxi.com/v1}
+      - MINIMAX_API_KEY=${MINIMAX_API_KEY}
+      - BACKEND_PORT=10030
+      - HOST=0.0.0.0
+      - DEBUG=True
+    volumes:
+      - ./storage:/app/storage
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:10030/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - watchface-network
+
+  # 前端服务
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: watchface-frontend
+    ports:
+      - "10031:10031"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:10031/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - watchface-network
+
+networks:
+  watchface-network:
+    driver: bridge
+
+volumes:
+  storage:
+  logs:
+

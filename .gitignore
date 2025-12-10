@@ -1,0 +1,82 @@
+# 环境变量（包含敏感信息）
+.env
+.env.local
+.env.production
+.env.development
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+backend/venv/
+*.egg-info/
+.eggs/
+*.egg
+
+# Node
+node_modules/
+frontend/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm
+.yarn
+
+# 构建输出
+dist/
+build/
+frontend/dist/
+*.min.js
+*.min.css
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# 日志
+*.log
+logs/
+backend.log
+*.backup
+
+# 存储数据（项目数据）
+storage/projects/
+storage/uploads/
+storage/api_keys.json
+
+# 测试
+.pytest_cache/
+.coverage
+htmlcov/
+coverage/
+.nyc_output/
+
+# Docker
+.dockerignore
+
+# 临时文件
+*.tmp
+*.bak
+*.swp
+.cache/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+__MACOSX/
+
+# 编辑器备份
+*~
+*.backup
+
