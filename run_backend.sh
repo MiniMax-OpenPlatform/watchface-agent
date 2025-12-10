@@ -1,10 +1,17 @@
 #!/bin/bash
 cd "$(dirname "$0")/backend"
 source venv/bin/activate
-export MINIMAX_BASE_URL="https://api.minimaxi.com/v1"
-export MINIMAX_API_KEY="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJHcm91cE5hbWUiOiLpmYjlh6_lroEiLCJVc2VyTmFtZSI6IumZiOWHr-WugSIsIkFjY291bnQiOiIiLCJTdWJqZWN0SUQiOiIxODM2NzAyODA4NzMzMTI3MDU3IiwiUGhvbmUiOiIxNTg4OTcyOTA0MSIsIkdyb3VwSUQiOiIxODM2NzAyODA4NzI0NzM4NDQ5IiwiUGFnZU5hbWUiOiIiLCJNYWlsIjoiIiwiQ3JlYXRlVGltZSI6IjIwMjUtMDgtMTQgMDE6NTU6MDAiLCJUb2tlblR5cGUiOjEsImlzcyI6Im1pbmltYXgifQ.PyP-etho9FgXJD3JwFpY3RezRug_bFmEA-FeicIEpLGocUVQZyPnbtuXrYbAlZD8x25TC2x3MhHkhvYFeP9Ap7JOdBRPPJ-na2hDMEXMTje9yPmQPvdKp7U7VQwSweVNMKreUzU6K0k6l92TN6IwL3Sq9KmNgfJF5P6mvA5j1ooVK0MKKz7AqX9RqjvhN4iNUpR76z3qpOVSLfZb00_kWoNIy9_v3tI-w8K5M_MMd4nzETzIem9I8jMUNx4ChX4Bs_5AVAs5X9Dxy_9Z9X21i4fIKY8OzbWXM_vas1rYQBgtTt2vJ4UW6LKhEyG-6TKG7RlSKqChEB46T-FElP2-xw"
-export BACKEND_PORT="10030"
 
-echo "🚀 Starting WatchFace Code Agent Backend on port 10030..."
+# 从环境变量读取API密钥，如果没有则提示用户设置
+if [ -z "$MINIMAX_API_KEY" ]; then
+    echo "❌ 错误: 请设置 MINIMAX_API_KEY 环境变量"
+    echo "   export MINIMAX_API_KEY=\"your_api_key_here\""
+    exit 1
+fi
+
+export MINIMAX_BASE_URL="${MINIMAX_BASE_URL:-https://api.minimaxi.com/v1}"
+export BACKEND_PORT="${BACKEND_PORT:-10030}"
+
+echo "🚀 Starting WatchFace Code Agent Backend on port $BACKEND_PORT..."
 python3 main.py
 
